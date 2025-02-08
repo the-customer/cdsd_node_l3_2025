@@ -1,0 +1,8 @@
+Voici un exemple de message.
+Il peut contenir plusieurs lignes.
+Il peut contenir des caractères spéciaux comme des guillemets ou des apostrophes.
+Il peut contenir des caractères accentués comme des é ou des è.
+Il peut contenir des caractères spéciaux comme des @ ou des #.
+Il peut contenir des caractères numériques comme des 0 ou des 9.
+Il peut contenir des caractères spéciaux comme des $ ou des %.
+Il peut contenir des caractères spéciaux comme des & ou des *.
