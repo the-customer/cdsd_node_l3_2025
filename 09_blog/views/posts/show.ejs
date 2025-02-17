@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title> <%= title %> </title>
+    <link rel="stylesheet" href="/css/output.css">
+  </head>
+  <body class="bg-gray-100">
+    <div class="container mx-auto p-6">
+        <h1 class="text-3xl font-bold text-blue-600 mb-4"><%= post.title %></h1>
+        <p class="text-gray-600">Par <%= post.author %> - <%= post.date %></p>
+        <p class="text-gray-600 mt-4"><%= post.content %></p>
+        <hr class="my-6">
+        <!-- Les commentaires -->
+        <h2 class="text-2xl font-bold mb-4">Commentaires</h2>
+        <% comments.forEach(comment => { %>
+            <div class="bg-white shadow rounded p-4 mb-4">
+                <div class="w-16 h-16 bg-slate-500 rounded-full"></div>
+                <p class="text-gray-700"><%= comment.author %></p>
+                <p class="text-gray-500 text-xs"><%= comment.createdAt %></p>
+                <p class="text-gray-600 mt-2"><%= comment.content %></p>
+            </div>
+        <% }); %>
+        <hr class="my-6">
+        <!-- Formulaire pour ajouter un commentaire -->
+         <h2 class="text-2xl font-bold mb-4">Ajouter un commentaire</h2>
+        <form action="/comment" method="POST" class="bg-white shadow rounded p-4">
+            <div class="mb-4">
+                <label for="author" class="block font-bold">Nom:</label>
+                <input id="author" name="author" type="text" class="w-full p-2 rounded border-2 border-gray-500" >
+            </div>
+            <div class="mb-4">
+                <label for="content" class="block font-bold">Commentaire:</label>
+                <textarea id="content" name="content"rows="4" class="text" class="w-full p-2 rounded border-2 border-gray-500"></textarea>
+            </div>
+            <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Ajouter</button>
+        </form> 
+
+
+
+        <a href="/posts" class="text-blue-500 underline inline-block">Retour à la liste</a>
+    </div>
+  </body>
+</html>
