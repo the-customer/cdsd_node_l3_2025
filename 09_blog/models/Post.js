@@ -5,6 +5,7 @@ const posts = [
         content: "This is the content of post 1 : INtroduction to Node.js",
         author: "theCustomer",
         date: "2021-01-01",
+        slug: "introduction-to-nodejs"
     },
     {
         id: 2,
@@ -12,15 +13,11 @@ const posts = [
         content: "This is the content of post 2 : Express for Beginners",
         author: "Bob",
         date: "2021-10-01",
+        slug: "express-for-beginners"
     }
 ];
 
-const getAllPosts = () => posts;
-const getPostById = (id) => posts.find(post => post.id === id);
+export const getAllPosts = () => posts;
+export const getPostById = (id) => posts.find(post => post.id === id);
+export const getPostBySlug = (slug) => posts.find(post => post.slug === slug);
 
-
-
-module.exports = {
-    getAllPosts, 
-    getPostById
-};

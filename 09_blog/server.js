@@ -1,9 +1,11 @@
-const express = require('express');
+import express from 'express';
 const app = express();
 const port = 3000;
-const postRoutes = require('./routes/postRoutes');
+import postRoutes from './routes/postRoutes.js';
+import commentRoutes from './routes/commentRoutes.js';
 
 app.use(express.static('public'));
+app.use(express.urlencoded({extended: true}));
 app.set('view engine', 'ejs');
 // app.set('views', 'views');
 
@@ -15,6 +17,7 @@ app.get('/', (req, res) => {
 });
 // ----Routes des article
 app.use('/posts', postRoutes);
+app.use('/comments', commentRoutes);
 
 //lancer le serveur
 app.listen(port, () => {

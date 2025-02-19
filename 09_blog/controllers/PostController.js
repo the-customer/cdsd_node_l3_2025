@@ -1,8 +1,14 @@
-const Post = require('../models/Post');
-const Comment = require('../models/Comment');
 
-exports.listPosts = (req, res) => {
-    const posts = Post.getAllPosts();
+import {getPostBySlug,getAllPosts} from '../models/Post.js';
+import {getCommentsByPostId} from '../models/Comment.js';
+import slug from 'slug';
+
+export const listPosts = (req, res) => {
+    const posts = getAllPosts();
+    //Ajouter un slug a chaque post
+    // const postsWithSlug = posts.map(post => {
+    //     return {...post,slug: slug(post.title, {lower: true})}
+    // });
     if(!posts){
         return res.status(404).send('Aucun article trouvé');
     }
@@ -12,15 +18,15 @@ exports.listPosts = (req, res) => {
     })
 }
 
-exports.showPost = (req, res) => {
-    const idPost = +req.params.id; 
-    const post = Post.getPostById(idPost);
-    console.log(post);
+export const showPost = (req, res) => {
+    const slugPost = req.params.slug; 
+    const post = getPostBySlug(slugPost);
     if(!post){
         return res.status(404).send('Aucun article trouvé');
     }
-
-    const comments = Comment.getCommentsByPostId(idPost);
+    //slug
+    // const slug = post.title.toLowerCase().split(' ').join('-'); 
+    const comments = getCommentsByPostId(post.id);
     res.render('posts/show',{
         title: post.title,
         post,

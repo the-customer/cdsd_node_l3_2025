@@ -6,7 +6,7 @@
     <link rel="stylesheet" href="/css/output.css">
   </head>
   <body class="bg-gray-100">
-    <div class="container mx-auto p-6">
+    <div class="container mx-auto p-6 relative" style="position: relative;">
         <h1 class="text-3xl font-bold text-blue-600 mb-4"><%= post.title %></h1>
         <p class="text-gray-600">Par <%= post.author %> - <%= post.date %></p>
         <p class="text-gray-600 mt-4"><%= post.content %></p>
@@ -18,20 +18,29 @@
                 <div class="w-16 h-16 bg-slate-500 rounded-full"></div>
                 <p class="text-gray-700"><%= comment.author %></p>
                 <p class="text-gray-500 text-xs"><%= comment.createdAt %></p>
-                <p class="text-gray-600 mt-2"><%= comment.content %></p>
+                <div class="mt-2 flex justify-between items-center">
+                  <p class="text-gray-600">
+                    <%= comment.content.length<=250 ? comment.content : comment.content.substr(0,250)+"..." %> 
+                    <% if(comment.content.length>250){ %>
+                      <small data-comment="<%= comment.content %>" class="text-blue-500 hover:underline cursor-pointer voirPlus">Voir + </small>
+                    <% } %>
+                  </p> 
+                  
+                  <small class="text-blue-500 hover:underline cursor-pointer">repondre</small>
+                </div>
             </div>
         <% }); %>
         <hr class="my-6">
         <!-- Formulaire pour ajouter un commentaire -->
          <h2 class="text-2xl font-bold mb-4">Ajouter un commentaire</h2>
-        <form action="/comment" method="POST" class="bg-white shadow rounded p-4">
+        <form action="/comments/<%= post.slug %>" method="POST" class="bg-white shadow rounded p-4">
             <div class="mb-4">
                 <label for="author" class="block font-bold">Nom:</label>
                 <input id="author" name="author" type="text" class="w-full p-2 rounded border-2 border-gray-500" >
             </div>
             <div class="mb-4">
                 <label for="content" class="block font-bold">Commentaire:</label>
-                <textarea id="content" name="content"rows="4" class="text" class="w-full p-2 rounded border-2 border-gray-500"></textarea>
+                <textarea id="content" name="content" rows="4" class="w-full p-2 rounded border-2 border-gray-500"></textarea>
             </div>
             <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Ajouter</button>
         </form> 
@@ -39,6 +48,39 @@
 
 
         <a href="/posts" class="text-blue-500 underline inline-block">Retour à la liste</a>
+       
     </div>
+
+    
+
+    <script>
+      const voirPlus = document.querySelectorAll(".voirPlus");
+
+      voirPlus.forEach((btn) => {
+        btn.addEventListener("click", (e) => {
+
+          const small = e.target;
+          comment = small.getAttribute("data-comment");
+
+          const p = small.parentElement;
+          const pCopy = p.cloneNode(true);
+          console.log(pCopy);
+
+          p.innerHTML = comment;
+
+          const newSmall = document.createElement("small");
+          newSmall.classList.add("text-blue-500", "hover:underline", "cursor-pointer", "voirPlus");
+          newSmall.setAttribute("data-comment", comment);
+          newSmall.innerText = "Voir -";
+
+          newSmall.addEventListener("click", (e) => {
+            p.innerHTML = pCopy.innerHTML;
+          })
+
+          p.appendChild(newSmall);
+        })
+      });
+      
+    </script>
   </body>
 </html>

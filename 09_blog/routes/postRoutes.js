@@ -1,11 +1,14 @@
-const express = require('express');
+import express from 'express';
+import {listPosts,showPost} from '../controllers/PostController.js';
+
+
 const router = express.Router();
-const PostController = require('../controllers/PostController');
 
 
 
-router.get('/', PostController.listPosts);
-router.get('/:id', PostController.showPost);
 
-module.exports = router;
+router.get('/', listPosts);
+router.get('/:slug', showPost);
 
+
+export default router;
