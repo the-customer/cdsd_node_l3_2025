@@ -1,4 +1,4 @@
-const posts = [
+let posts = [
     {
         id: 1,
         title: "Introduction to Node.js",
@@ -20,4 +20,15 @@ const posts = [
 export const getAllPosts = () => posts;
 export const getPostById = (id) => posts.find(post => post.id === id);
 export const getPostBySlug = (slug) => posts.find(post => post.slug === slug);
+export const deletePostById = (id) => {
 
+    posts = posts.filter(post => post.id != id)
+}
+
+export const updatePostById = (id,title, content) => {
+    const post = getPostById(id);
+    if(post){
+        post.title = title;
+        post.content = content;
+    }
+}

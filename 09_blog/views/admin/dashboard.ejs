@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title> <%= title %> </title>
+    <link rel="stylesheet" href="/css/output.css">
+  </head>
+  <body class="bg-gray-100">
+    <div class="container mx-auto p-6">
+        <h1 class="text-3xl font-bold text-blue-600 mb-4">Tableau de bord</h1>
+
+        <h2 class="text-xl font-bold mb-2 underline">Les Atricles postés</h2>
+        <ul class="space-y-4">
+            <% posts.forEach(post => { %>
+                <li class="p-4 bg-white shadow rounded-lg flex justify-between items-center space-x-4">
+                    <div>
+                        <h3> <%= post.title %> </h3>
+                        <small class="font-bold"> <%= post.author %> </small>
+                    </div>
+                    <div>
+                        <form method="get" action="/admin/posts/edit/<%= post.id %>">
+                            <button class="bg-orange-500 text-xs text-white px-3 py-1 rounded">Editer</button>
+                        </form>
+                        <form method="post" action="/admin/posts/delete/<%= post.id %>">
+                            <button class="bg-red-500 text-xs text-white px-3 py-1 rounded">Supprimer</button>
+                        </form>
+                    </div>
+                    
+                </li>
+            <% }) %>
+        </ul>
+        <hr class="my-6">
+        <h2 class="text-xl font-bold mb-2 underline">Les Commentaires</h2>
+        <ul class="space-y-4">
+            <% comments.forEach(comment => { %>
+                <li class="p-4 bg-white shadow rounded-lg flex justify-between items-center space-x-4">
+                    <div>
+                        <p class=" text-justify"> <%= comment.content %> </p>
+                        <small class="font-bold"> <%= comment.author %> </small>
+                    </div>
+                    <form method="post" action="/admin/comments/delete/<%= comment.id %>">
+                        <button class="bg-red-500 text-xs text-white px-3 py-1 rounded">Supprimer</button>
+                    </form>
+                </li>
+            <% }) %>
+        </ul>
+    </div>
+  </body>
+</html>

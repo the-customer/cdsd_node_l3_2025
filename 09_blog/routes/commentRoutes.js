@@ -1,11 +1,12 @@
 import express from 'express';
-import { addCommentAction } from '../controllers/CommentController.js';
+import { addCommentAction,addResponseAction } from '../controllers/CommentController.js';
 
 
 const router = express.Router();
 
 
 
+router.post('/:id/response', addResponseAction);
 router.post('/:slug', addCommentAction);
 
 

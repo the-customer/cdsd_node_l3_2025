@@ -13,23 +13,48 @@
         <hr class="my-6">
         <!-- Les commentaires -->
         <h2 class="text-2xl font-bold mb-4">Commentaires</h2>
-        <% comments.forEach(comment => { %>
-            <div class="bg-white shadow rounded p-4 mb-4">
-                <div class="w-16 h-16 bg-slate-500 rounded-full"></div>
-                <p class="text-gray-700"><%= comment.author %></p>
-                <p class="text-gray-500 text-xs"><%= comment.createdAt %></p>
-                <div class="mt-2 flex justify-between items-center">
-                  <p class="text-gray-600">
-                    <%= comment.content.length<=250 ? comment.content : comment.content.substr(0,250)+"..." %> 
-                    <% if(comment.content.length>250){ %>
-                      <small data-comment="<%= comment.content %>" class="text-blue-500 hover:underline cursor-pointer voirPlus">Voir + </small>
-                    <% } %>
-                  </p> 
-                  
-                  <small class="text-blue-500 hover:underline cursor-pointer">repondre</small>
-                </div>
-            </div>
-        <% }); %>
+        <ul>
+          <% comments.forEach(comment => { %>
+              <li class="bg-white shadow rounded p-4 mb-4">
+                  <div class="w-16 h-16 bg-slate-500 rounded-full"></div>
+                  <p class="text-gray-700"><%= comment.author %></p>
+                  <p class="text-gray-500 text-xs"><%= comment.createdAt.toLocaleDateString()+' à '+comment.createdAt.toLocaleTimeString() %></p>
+                  <div class="mt-2 flex justify-between items-center">
+                    <p class="text-gray-600">
+                      <%= comment.content.length<=250 ? comment.content : comment.content.substr(0,250)+"..." %> 
+                      <% if(comment.content.length>250){ %>
+                        <small data-comment="<%= comment.content %>" class="text-blue-500 hover:underline cursor-pointer voirPlus">Voir + </small>
+                      <% } %>
+                    </p> 
+                    <small id="<%= comment.id %>" onclick="showFormResponse(this)" class="text-blue-500 hover:underline cursor-pointer">repondre</small>
+                  </div>
+                  <!-- Formulaire de reponse -->
+                  <form id="form_<%= comment.id %>" action="/comments/<%= post.id %>/response" method="POST" style="display:none" class="bg-white shadow rounded p-4">
+                    <div class="mb-4">
+                        <label for="author" class="block font-bold">Nom:</label>
+                        <input id="author" name="author" type="text" class="w-full p-2 rounded border-2 border-gray-500" >
+                    </div>
+                    <div class="mb-4">
+                        <label for="content" class="block font-bold">Commentaire:</label>
+                        <textarea id="content" name="content" rows="4" class="w-full p-2 rounded border-2 border-gray-500"></textarea>
+                    </div>
+                    <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Reponse</button>
+                </form> 
+                <!-- Les reponses -->
+                  <ul class="ml-6 mt-2 space-y-2">
+                    <% comment.responses.forEach(response => { %>
+                    <li class="p-2 bg-gray-100">
+                      <p class="flex justify-between">
+                       <span class="font-bold"> <%= response.author %></span>
+                        <small><%= response.createdAt %></small>
+                      </p>
+                      <p><%= response.content %></p>
+                    </li>
+                    <% }) %>
+                  </ul>
+              </li>
+          <% }); %>
+        </ul>
         <hr class="my-6">
         <!-- Formulaire pour ajouter un commentaire -->
          <h2 class="text-2xl font-bold mb-4">Ajouter un commentaire</h2>
@@ -80,6 +105,12 @@
           p.appendChild(newSmall);
         })
       });
+
+      function showFormResponse(e){
+        const id = e.id;
+        const formResponse = document.getElementById(`form_${id}`);
+        formResponse.style.display="block"
+      }
       
     </script>
   </body>

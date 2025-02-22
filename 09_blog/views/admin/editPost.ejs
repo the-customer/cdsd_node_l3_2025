@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title> <%= title %> </title>
+    <link rel="stylesheet" href="/css/output.css">
+  </head>
+  <body class="bg-gray-100">
+    <div class="container mx-auto p-6">
+        <h1 class="text-3xl font-bold text-blue-600 mb-4">Modifier un article</h1>
+        <form action="/admin/posts/edit/<%= post.id %>" method="post" class="bg-white p-4 shadow rounded">
+            <div class="mb-4">
+                <label id="title" class="block font-bold">Titre : </label>
+                <input value="<%= post.title %>" type="text" id="title" name="title" class="w-full p-2 rounded border-2" >
+            </div>
+            <div class="mb-4">
+                <label id="content" class="block font-bold">Contenu : </label>
+                <textarea type="text" id="content" name="content" class="w-full p-2 rounded border-2" > <%= post.content %> </textarea>
+            </div>
+            <button type="submit" class="bg-green-500 text-white px-4 py-2 rounded">Modifier</button>
+            <a href="/admin" class="bg-red-500 text-white px-4 py-2 rounded">Annuler</a>
+        </form>
+    </div>
+  </body>
+</html>
